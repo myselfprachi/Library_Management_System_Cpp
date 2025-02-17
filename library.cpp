@@ -469,33 +469,64 @@ int main() {
     Book::loadBooks();
     Book::loadUsers();
     Book::loadRatings();
+
     while (true) {
-        cout << "\nLibrary Management System:\n";
-        cout << (currentUser.empty() ? "\n" : "Welcome, " + currentUser + "!\n") << (currentUser.empty() ? "1. Register\n2. Login" : "1. Logout\n2. Add Book\n3. Search Book\n4. Issue Book\n5. Return Book\n6. Calculate Fine\n7. Rate Book\n8. Recommend Books\n9. Generate Reports\n10. Exit\n");
+        cout<<endl;
+        cout << "Library Management System:";
+        cout<<endl;
+        if(currentUser.empty()){
+            cout << "1. Register\n";
+            cout << "2. Login\n";
+            cout << "3. Exit\n";
+        } 
+        else {
+            cout << "Welcome, " + currentUser + "!\n";
+            cout << "1. Logout\n";
+            cout << "2. Add Book\n";
+            cout << "3. Search Book\n";
+            cout << "4. Issue Book\n";
+            cout << "5. Return Book\n";
+            cout << "6. Calculate Fine\n";
+            cout << "7. Rate Book\n";
+            cout << "8. Recommend Books\n";
+            cout << "9. Generate Reports\n";
+            cout << "10. Exit\n";
+        }
+
         int choice;
         cout<<endl;
-        cout<<"Enter your choice: ";
+        cout << "Enter your choice: ";
         cin >> choice;
-        switch (choice) {
-            case 1: registerUser(); break;
-            case 2: loginUser(); break;
-            case 3: logoutUser(); break;
-            case 4: Book::addBook(); break;
-            case 5: Book::searchBook(); break;
-            case 6: Book::issueBook(); break;
-            case 7: Book::returnBook(); break;
-            case 8: {
-                int bookId;
-                cout << "Enter Book ID to calculate fine: ";
-                cin >> bookId;
-                Book::calculateFine(bookId);
-                break;
+
+        if (currentUser.empty()) {
+            switch (choice) {
+                // if no user logged in
+                case 1: registerUser(); break;
+                case 2: loginUser(); break;
+                case 3: return 0; // Exit
+                default: cout << "Invalid choice. Try again.\n";
             }
-            case 9: Book::rateBook(); break;
-            case 10: Book::recommendBooks(); break;
-            case 11: Book::generateReports(); break;
-            case 12: return 0;
-            default: cout << "Invalid choice. Try again.\n";
+        } else {
+            // if user logged in
+            switch (choice) {
+                case 1: logoutUser(); break;
+                case 2: Book::addBook(); break;
+                case 3: Book::searchBook(); break;
+                case 4: Book::issueBook(); break;
+                case 5: Book::returnBook(); break;
+                case 6: {
+                    int bookId;
+                    cout << "Enter Book ID to calculate fine: ";
+                    cin >> bookId;
+                    Book::calculateFine(bookId);
+                    break;
+                }
+                case 7: Book::rateBook(); break;
+                case 8: Book::recommendBooks(); break;
+                case 9: Book::generateReports(); break;
+                case 10: return 0; // Exit
+                default: cout << "Invalid choice. Try again.\n";
+            }
         }
     }
 }
